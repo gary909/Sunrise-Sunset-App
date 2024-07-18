@@ -7,6 +7,11 @@ const SunriseSunset: React.FC = () => {
     latitude: 0,
     longitude: 0,
   });
+
+  const [sunriseSunsetData, setSunriseSunsetData] = useState<
+    SunriseSunsetResponse["results"] | null
+  >(null);
+
   const [sunrise, setSunrise] = useState<string>("");
   const [sunset, setSunset] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -24,8 +29,11 @@ const SunriseSunset: React.FC = () => {
       const response = await axios.get<SunriseSunsetResponse>(
         `https://api.sunrisesunset.io/json?lat=${location.latitude}&lng=${location.longitude}&formatted=0`
       );
-      setSunrise(new Date(response.data.results.sunrise).toLocaleTimeString());
-      setSunset(new Date(response.data.results.sunset).toLocaleTimeString());
+      setSunriseSunsetData(response.data.results);
+      console.log("Latitude:", location.latitude);
+      console.log("Sunrise:", response.data.results.sunrise);
+      console.log("Longitude:", location.longitude);
+      console.log("Sunset:", response.data.results.sunset);
     } catch (err) {
       setError("Failed to fetch data. Please try again.");
     } finally {
@@ -62,10 +70,10 @@ const SunriseSunset: React.FC = () => {
         {loading ? "Loading..." : "Get Sunrise and Sunset Times"}
       </button>
       {error && <p>{error}</p>}
-      {sunrise && sunset && (
+      {sunriseSunsetData && (
         <div>
-          <p>Sunrise: {sunrise}</p>
-          <p>Sunset: {sunset}</p>
+          <p>Sunrise: {sunriseSunsetData.sunrise}</p>
+          <p>Sunset: {sunriseSunsetData.sunset}</p>
         </div>
       )}
     </div>
