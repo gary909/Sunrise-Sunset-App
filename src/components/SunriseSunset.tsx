@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { SunriseSunsetResponse, Location } from "../types";
+import "./SunriseSunset.css";
 
 const SunriseSunset: React.FC = () => {
   const [location, setLocation] = useState<Location>({
@@ -12,8 +13,8 @@ const SunriseSunset: React.FC = () => {
     SunriseSunsetResponse["results"] | null
   >(null);
 
-  const [sunrise, setSunrise] = useState<string>("");
-  const [sunset, setSunset] = useState<string>("");
+  //   const [sunrise, setSunrise] = useState<string>("");
+  //   const [sunset, setSunset] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
@@ -76,6 +77,16 @@ const SunriseSunset: React.FC = () => {
           <p>Sunset: {sunriseSunsetData.sunset}</p>
         </div>
       )}
+      <footer className="footer">
+        Powered by{" "}
+        <a
+          href="https://sunrisesunset.io"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          SunriseSunset.io
+        </a>
+      </footer>
     </div>
   );
 };
